@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MarkerApp</string>
+
+    <string-array name="list">
+        <item>wbath</item>
+        <item>208</item>
+        <item>209</item>
+        <item>wt</item>
+        <item>mt</item>
+        <item>210</item>
+        <item>211</item>
+        <item>2C</item>
+        <item>2D</item>
+
+        <item>mbath</item>
+        <item>207</item>
+        <item>206</item>
+        <item>205</item>
+        <item>204</item>
+        <item>203</item>
+        <item>202</item>
+        <item>201</item>
+        <item>2B</item>
+        <item>2A</item>
+
+</string-array>
+</resources>
