@@ -17,7 +17,6 @@ import static com.example.fujitaken.markerapp.R.id.spinner;
 
 public class MainActivity extends AppCompatActivity {
 
-    int i=0;
     int j=0;
     ImageButton ib;
     ImageButton ib2;
@@ -83,23 +82,23 @@ public class MainActivity extends AppCompatActivity {
         editor = data.edit();
 
 
-        editor.putInt("wbath", R.id.imageButton);
-        editor.putInt("208", R.id.imageButton2);
-        editor.putInt("209", R.id.imageButton3);
-        editor.putInt("wt", R.id.imageButton4);
-        editor.putInt("mt", R.id.imageButton5);
-        editor.putInt("210", R.id.imageButton6);
-        editor.putInt("211", R.id.imageButton7);
+        editor.putInt("女湯", R.id.imageButton);
+        editor.putInt("208室", R.id.imageButton2);
+        editor.putInt("209室", R.id.imageButton3);
+        editor.putInt("女子トイレ", R.id.imageButton4);
+        editor.putInt("男子トイレ", R.id.imageButton5);
+        editor.putInt("210室", R.id.imageButton6);
+        editor.putInt("211室", R.id.imageButton7);
         editor.putInt("2C", R.id.imageButton8);
         editor.putInt("2D", R.id.imageButton9);
-        editor.putInt("mbath", R.id.imageButtonN);
-        editor.putInt("207", R.id.imageButtonN2);
-        editor.putInt("206", R.id.imageButtonN3);
-        editor.putInt("205", R.id.imageButtonN4);
-        editor.putInt("204", R.id.imageButtonN5);
-        editor.putInt("203", R.id.imageButtonN6);
-        editor.putInt("202", R.id.imageButtonN7);
-        editor.putInt("201", R.id.imageButtonN8);
+        editor.putInt("男湯", R.id.imageButtonN);
+        editor.putInt("207室", R.id.imageButtonN2);
+        editor.putInt("206室", R.id.imageButtonN3);
+        editor.putInt("205室", R.id.imageButtonN4);
+        editor.putInt("204室", R.id.imageButtonN5);
+        editor.putInt("203室", R.id.imageButtonN6);
+        editor.putInt("202室", R.id.imageButtonN7);
+        editor.putInt("201室", R.id.imageButtonN8);
         editor.putInt("2B", R.id.imageButtonN9);
         editor.putInt("2A", R.id.imageButtonN10);
         editor.apply();
@@ -128,22 +127,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-    }
-
-    public void onClick(View v){
-        SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
-        if(i==0){
-            ib.setImageResource(R.drawable.pin);
-            ib.setVisibility(v.VISIBLE);
-            i++;
-        }
-        else{
-            ib.setVisibility(v.INVISIBLE);
-            i=0;
-        }
     }
 }

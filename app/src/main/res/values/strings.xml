@@ -2,24 +2,24 @@
     <string name="app_name">MarkerApp</string>
 
     <string-array name="list">
-        <item>wbath</item>
-        <item>208</item>
-        <item>209</item>
-        <item>wt</item>
-        <item>mt</item>
-        <item>210</item>
-        <item>211</item>
+        <item>女湯</item>
+        <item>208室</item>
+        <item>209室</item>
+        <item>女子トイレ</item>
+        <item>男子トイレ</item>
+        <item>210室</item>
+        <item>211室</item>
         <item>2C</item>
         <item>2D</item>
 
-        <item>mbath</item>
-        <item>207</item>
-        <item>206</item>
-        <item>205</item>
-        <item>204</item>
-        <item>203</item>
-        <item>202</item>
-        <item>201</item>
+        <item>男湯</item>
+        <item>207室</item>
+        <item>206室</item>
+        <item>205室</item>
+        <item>204室</item>
+        <item>203室</item>
+        <item>202室</item>
+        <item>201室</item>
         <item>2B</item>
         <item>2A</item>
 
