@@ -130,9 +130,12 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
         Spinner sp = (Spinner)findViewById(spinner);
+
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-                if(j!=0){
+
+                //スピナーの要素がタップされた時の処理
+                if(j!=0){//初回以外
                     imagbtn.setVisibility(View.INVISIBLE);
                 }
                 j++;
