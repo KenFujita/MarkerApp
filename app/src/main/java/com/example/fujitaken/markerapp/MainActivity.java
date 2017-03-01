@@ -1,9 +1,15 @@
 package com.example.fujitaken.markerapp;
 
+import android.app.NotificationManager;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.example.fujitaken.markerapp.R.id.spinner;
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     String item;
     SharedPreferences data;
     SharedPreferences.Editor editor;
+
+    BluetoothAdapter mBluetoothAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +113,22 @@ public class MainActivity extends AppCompatActivity {
         editor.putInt("2A", R.id.imageButtonN10);
         editor.apply();
 
+        // デバイスがBLEに対応しているかを確認する.
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this, "BLE未対応", Toast.LENGTH_SHORT).show();
+        }
+
+        //ble準備
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+
+        /*Bleの有効化
+        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }*/
+
         Spinner sp = (Spinner)findViewById(spinner);
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
@@ -121,18 +146,53 @@ public class MainActivity extends AppCompatActivity {
                 imagbtn.setImageResource(R.drawable.pin);
                 imagbtn.setVisibility(View.VISIBLE);
 
+                String selectSpName = (String) sp.getSelectedItem();
+                Log.d("spinner",selectSpName);
+
+                if(selectSpName.equals("2C")){
+                    mBluetoothAdapter.startLeScan(mLeScanCallback);
+                }
+                else{
+                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                }
+
             }
 
             public void onNothingSelected(AdapterView<?> parent){
 
             }
         });
-
-
-
-
-
     }
+
+    BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @Override
+        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+            // デバイスが検出される度に呼び出される。
+            int tx_power = -60;  //電波強度(raspiと合わせている)
+
+            /*デバッグここから*/
+            String uuid = "";
+
+            if(device.getAddress().equals("B8:27:EB:D2:76:CA")) {
+                String msg = "name=" + device.getName() + ", bondStatus="
+                        + device.getBondState() + ", address="
+                        + device.getAddress() + ", type" + device.getType()
+                        + ", uuids=" + uuid + ", rssi=" + rssi;
+                Log.d("AAAA", msg);
+
+                double distance = Math.pow(10.0, (tx_power - rssi) / 18.0);  //スマホ-raspi間の距離
+
+                if(distance <= 30.0){
+                    sendNotification();
+                }
+
+                String distance_s = String.format("%.1f", distance);
+
+                Log.d("AAAA", distance_s + "メートル");
+                /*デバッグここまで*/
+            }
+        }
+    };
 
     public void onClick(View v){
         SharedPreferences data = getSharedPreferences("DataSave", Context.MODE_PRIVATE);
@@ -145,5 +205,23 @@ public class MainActivity extends AppCompatActivity {
             ib.setVisibility(v.INVISIBLE);
             i=0;
         }
+    }
+
+    private void sendNotification(){
+        NotificationCompat.Builder mBuilder =
+                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("教室到着連絡")
+                        .setContentText("教室付近です")
+                        .setTicker("notification is displayed !!");
+
+        int mNotificationId = 001;
+
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 }
